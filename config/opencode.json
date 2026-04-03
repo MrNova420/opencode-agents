@@ -10,6 +10,46 @@
       "description": "Master developer - universal, can build anything",
       "prompt": "{file:./agents/master-dev.md}",
       "mode": "primary"
+    },
+    "architect": {
+      "description": "System design and architecture specialist",
+      "prompt": "{file:./agents/dev-team/architect.md}",
+      "mode": "all"
+    },
+    "frontend-dev": {
+      "description": "Frontend and UI development specialist",
+      "prompt": "{file:./agents/dev-team/frontend-dev.md}",
+      "mode": "all"
+    },
+    "backend-dev": {
+      "description": "Backend and API development specialist",
+      "prompt": "{file:./agents/dev-team/backend-dev.md}",
+      "mode": "all"
+    },
+    "devops": {
+      "description": "DevOps and infrastructure specialist",
+      "prompt": "{file:./agents/dev-team/devops.md}",
+      "mode": "all"
+    },
+    "qa-tester": {
+      "description": "QA and testing specialist",
+      "prompt": "{file:./agents/dev-team/qa-tester.md}",
+      "mode": "all"
+    },
+    "researcher": {
+      "description": "Research and R&D specialist",
+      "prompt": "{file:./agents/dev-team/researcher.md}",
+      "mode": "all"
+    },
+    "security-dev": {
+      "description": "Security specialist",
+      "prompt": "{file:./agents/dev-team/security-dev.md}",
+      "mode": "all"
+    },
+    "docs-writer": {
+      "description": "Documentation specialist",
+      "prompt": "{file:./agents/dev-team/docs-writer.md}",
+      "mode": "all"
     }
   }
 }
