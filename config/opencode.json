@@ -1,53 +1,53 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-    "orchestrator": {
-      "description": "Main orchestrator - coordinates the dev team, your primary contact",
-      "prompt": "{file:./agents/dev-team/orchestrator.md}",
+    "architect": {
+      "description": "Plan & design - system architecture, data models, tech stack",
+      "prompt": "{file:./agents/dev-team/architect.md}",
+      "mode": "primary"
+    },
+    "researcher": {
+      "description": "Research - evaluate tools, frameworks, best practices",
+      "prompt": "{file:./agents/dev-team/researcher.md}",
       "mode": "primary"
     },
     "master-dev": {
-      "description": "Master developer - universal, can build anything",
+      "description": "Build anything - universal developer for any tech",
       "prompt": "{file:./agents/master-dev.md}",
       "mode": "primary"
     },
-    "architect": {
-      "description": "System design and architecture specialist",
-      "prompt": "{file:./agents/dev-team/architect.md}",
-      "mode": "all"
+    "orchestrator": {
+      "description": "Coordinate - manages the dev team, your main contact",
+      "prompt": "{file:./agents/dev-team/orchestrator.md}",
+      "mode": "primary"
     },
     "frontend-dev": {
-      "description": "Frontend and UI development specialist",
+      "description": "UI/Frontend - React, components, styling",
       "prompt": "{file:./agents/dev-team/frontend-dev.md}",
       "mode": "all"
     },
     "backend-dev": {
-      "description": "Backend and API development specialist",
+      "description": "Backend - APIs, databases, auth",
       "prompt": "{file:./agents/dev-team/backend-dev.md}",
       "mode": "all"
     },
     "devops": {
-      "description": "DevOps and infrastructure specialist",
+      "description": "DevOps - CI/CD, Docker, deployment",
       "prompt": "{file:./agents/dev-team/devops.md}",
       "mode": "all"
     },
     "qa-tester": {
-      "description": "QA and testing specialist",
+      "description": "QA/Testing - tests, quality, bugs",
       "prompt": "{file:./agents/dev-team/qa-tester.md}",
       "mode": "all"
     },
-    "researcher": {
-      "description": "Research and R&D specialist",
-      "prompt": "{file:./agents/dev-team/researcher.md}",
-      "mode": "all"
-    },
     "security-dev": {
-      "description": "Security specialist",
+      "description": "Security - audits, vulnerabilities, compliance",
       "prompt": "{file:./agents/dev-team/security-dev.md}",
       "mode": "all"
     },
     "docs-writer": {
-      "description": "Documentation specialist",
+      "description": "Docs - README, API docs, tutorials",
       "prompt": "{file:./agents/dev-team/docs-writer.md}",
       "mode": "all"
     }
