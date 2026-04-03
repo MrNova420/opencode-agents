@@ -1,33 +1,43 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-    "architect": {
-      "description": "Plan & design - system architecture, data models, tech stack",
-      "prompt": "{file:./agents/dev-team/architect.md}",
+    "plan": {
+      "description": "Plan - break down tasks, create roadmaps, architecture",
+      "prompt": "You are a planning agent. Break down complex tasks into clear steps, identify dependencies, estimate effort, and create actionable roadmaps. Focus on clean architecture and maintainable solutions.",
       "mode": "primary"
     },
-    "researcher": {
-      "description": "Research - evaluate tools, frameworks, best practices",
-      "prompt": "{file:./agents/dev-team/researcher.md}",
+    "build": {
+      "description": "Build - write code, implement features, ship it",
+      "prompt": "You are a build agent. Write high-quality code, implement features, follow best practices, test thoroughly, and ship production-ready solutions. Be methodical and thorough.",
       "mode": "primary"
     },
     "master-dev": {
-      "description": "Build anything - universal developer for any tech",
+      "description": "Master Dev - universal developer, build anything with any tech",
       "prompt": "{file:./agents/master-dev.md}",
       "mode": "primary"
     },
     "orchestrator": {
-      "description": "Coordinate - manages the dev team, your main contact",
+      "description": "Orchestrator - coordinates the dev team, your main contact",
       "prompt": "{file:./agents/dev-team/orchestrator.md}",
       "mode": "primary"
     },
+    "architect": {
+      "description": "Architect - system design, data models, tech stack",
+      "prompt": "{file:./agents/dev-team/architect.md}",
+      "mode": "all"
+    },
+    "researcher": {
+      "description": "Researcher - evaluate tools, frameworks, best practices",
+      "prompt": "{file:./agents/dev-team/researcher.md}",
+      "mode": "all"
+    },
     "frontend-dev": {
-      "description": "UI/Frontend - React, components, styling",
+      "description": "Frontend Dev - UI, React, components, styling",
       "prompt": "{file:./agents/dev-team/frontend-dev.md}",
       "mode": "all"
     },
     "backend-dev": {
-      "description": "Backend - APIs, databases, auth",
+      "description": "Backend Dev - APIs, databases, auth",
       "prompt": "{file:./agents/dev-team/backend-dev.md}",
       "mode": "all"
     },
@@ -37,7 +47,7 @@
       "mode": "all"
     },
     "qa-tester": {
-      "description": "QA/Testing - tests, quality, bugs",
+      "description": "QA Tester - tests, quality, bugs",
       "prompt": "{file:./agents/dev-team/qa-tester.md}",
       "mode": "all"
     },
@@ -47,7 +57,7 @@
       "mode": "all"
     },
     "docs-writer": {
-      "description": "Docs - README, API docs, tutorials",
+      "description": "Docs Writer - README, API docs, tutorials",
       "prompt": "{file:./agents/dev-team/docs-writer.md}",
       "mode": "all"
     }
