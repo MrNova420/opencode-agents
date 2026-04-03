@@ -7,11 +7,12 @@ yo! this project sets up opencode with your custom agents and guidelines so you 
 ## features
 
 - **10 universal master developer agents** - can build anything
-- **orchestrator** manages everything - just talk to one person
-- **specialized agents** for every aspect of development
-- comprehensive AGENTS.md guidelines
-- one-command setup
-- cross-platform (linux, macos, windows/wsl)
+- **Orchestrator** manages everything - just talk to one person
+- **Specialized agents** for every aspect of development
+- Comprehensive AGENTS.md guidelines
+- **One-command setup** - installs OpenCode CLI if needed!
+- Cross-platform (linux, macos, windows/wsl)
+- Version control tracking with rollback capability
 
 ## the dev team
 
@@ -32,19 +33,26 @@ yo! this project sets up opencode with your custom agents and guidelines so you 
 
 They can all work with ANY technology, ANY project type, ANY industry.
 
-## quick start
-
-### one-line install
+## quick start (one-line install)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/MrNova420/opencode-agents/main/quickstart.sh | bash
 ```
 
-### manual install
+This will:
+1. Install OpenCode CLI if not present
+2. Clone the repo (or update if exists)
+3. Install all agents
+4. Configure everything
+
+## manual install
 
 ```bash
+# Clone the repo
 git clone https://github.com/MrNova420/opencode-agents.git
 cd opencode-agents
+
+# Run setup (installs opencode if needed)
 chmod +x setup.sh
 ./setup.sh
 ```
@@ -57,7 +65,7 @@ chmod +x setup.sh
 opencode --agent orchestrator
 ```
 
-just tell the orchestrator what you want to build, and they'll coordinate the whole team.
+Just tell the orchestrator what you want to build, and they'll coordinate the whole team.
 
 ### available agents (press TAB to switch)
 
@@ -131,25 +139,64 @@ opencode-agents/
 ├── config/
 │   └── opencode.json             # opencode config
 ├── scripts/
-│   ├── install-opencode.sh
-│   ├── update.sh
-│   └── reset.sh
-├── setup.sh
-├── quickstart.sh
+│   ├── install-opencode.sh       # standalone opencode installer
+│   ├── update.sh                # update agents from repo
+│   └── reset.sh                 # reset to defaults
+├── setup.sh                     # main setup (auto-installs opencode)
+├── quickstart.sh                # one-line installer
 └── README.md
 ```
 
 ## requirements
 
-- opencode installed ([install guide](https://opencode.ai/docs/))
-- git (for cloning)
-- curl (for one-line install)
+- **git** (for cloning)
+- **curl** (for one-line install)
+- OpenCode is installed automatically if not present
 
 ## supported platforms
 
-- ✅ linux (ubuntu, debian, fedora, arch, etc.)
-- ✅ macos
-- ✅ windows (via wsl or git bash)
+- ✅ Linux (Ubuntu, Debian, Fedora, Arch, etc.)
+- ✅ macOS
+- ✅ Windows (via WSL or Git Bash)
+
+## troubleshooting
+
+### OpenCode not found after install
+
+If the install script completes but `opencode` isn't found, try:
+
+```bash
+# Source your shell config
+source ~/.bashrc
+
+# Or restart your terminal
+exec bash
+
+# Verify installation
+opencode --version
+```
+
+### Manual OpenCode install
+
+If you need to install OpenCode manually:
+
+```bash
+# Official installer
+curl -fsSL https://opencode.ai/install | sh
+
+# Or via npm
+npm install -g opencode-ai
+
+# Or on macOS with Homebrew
+brew install anomalyco/tap/opencode
+```
+
+### Update agents
+
+```bash
+cd ~/opencode-agents
+./scripts/update.sh
+```
 
 ## license
 
@@ -157,4 +204,4 @@ MIT
 
 ---
 
-built with ❤️ for developers who want their ai dev team everywhere
+Built with ❤️ for developers who want their AI dev team everywhere

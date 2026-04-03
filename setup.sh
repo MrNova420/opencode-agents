@@ -64,30 +64,43 @@ banner() {
 check_requirements() {
     log_info "Checking requirements..."
     
+    # Check for git
+    if command -v git &> /dev/null; then
+        log_success "git found"
+    else
+        log_error "git is required but not found"
+        echo "Install git: https://git-scm.com/downloads"
+        exit 1
+    fi
+    
     # Check for opencode
     if ! command -v opencode &> /dev/null; then
         log_warn "opencode not found!"
         echo ""
-        echo "Please install opencode first:"
-        echo "  curl -fsSL https://opencode.ai/install | bash"
+        echo "Installing OpenCode CLI..."
         echo ""
-        echo "Or: npm install -g opencode-ai"
-        echo ""
-        read -p "Continue anyway? (y/N) " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        curl -fsSL https://opencode.ai/install | sh
+        
+        # Source shell config to get the new PATH
+        if [ -f "${HOME}/.bashrc" ]; then
+            source "${HOME}/.bashrc"
+        fi
+        if [ -f "${HOME}/.zshrc" ]; then
+            source "${HOME}/.zshrc"
+        fi
+        
+        # Check if installation succeeded
+        if command -v opencode &> /dev/null; then
+            log_success "opencode installed"
+            opencode --version 2>/dev/null || true
+        else
+            log_error "Failed to install opencode"
+            echo "Please install manually: curl -fsSL https://opencode.ai/install | sh"
             exit 1
         fi
     else
         log_success "opencode found"
         opencode --version 2>/dev/null || true
-    fi
-    
-    # Check for git
-    if command -v git &> /dev/null; then
-        log_success "git found"
-    else
-        log_warn "git not found - some features may not work"
     fi
 }
 
