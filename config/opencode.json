@@ -1,8 +1,15 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-    "build": {
-      "prompt": "{file:./agents/dev-team/orchestrator.md}"
+    "orchestrator": {
+      "description": "Main orchestrator - coordinates the dev team, your primary contact",
+      "prompt": "{file:./agents/dev-team/orchestrator.md}",
+      "mode": "primary"
+    },
+    "master-dev": {
+      "description": "Master developer - universal, can build anything",
+      "prompt": "{file:./agents/master-dev.md}",
+      "mode": "primary"
     }
   }
 }

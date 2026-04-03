@@ -6,7 +6,7 @@ yo! this project sets up opencode with your custom agents and guidelines so you 
 
 ## features
 
-- **9 master developer agents** working as a team
+- **10 universal master developer agents** - can build anything
 - **orchestrator** manages everything - just talk to one person
 - **specialized agents** for every aspect of development
 - comprehensive AGENTS.md guidelines
@@ -18,8 +18,8 @@ yo! this project sets up opencode with your custom agents and guidelines so you 
 ```
 👑 ORCHESTRATOR (Your Main Contact)
     │
-    ├── 🏗️ ARCHITECT - System design, architecture
-    ├── 🎨 FRONTEND-DEV - UI, React, components
+    ├── 🏗️ ARCHITECT - System design, data models
+    ├── 🎨 FRONTEND-DEV - React, UI, components
     ├── ⚙️ BACKEND-DEV - APIs, databases, auth
     ├── 🚀 DEVOPS - CI/CD, deployment, Docker
     ├── 🧪 QA-TESTER - Testing, quality, bugs
@@ -28,7 +28,9 @@ yo! this project sets up opencode with your custom agents and guidelines so you 
     └── 📝 DOCS-WRITER - Documentation, specs
 ```
 
-**Every agent is a master developer first** - they can all write any code, build any project. Specialization means extra expertise, not limited scope.
+**Every agent is a UNIVERSAL MASTER DEVELOPER first.**
+
+They can all work with ANY technology, ANY project type, ANY industry.
 
 ## quick start
 
@@ -57,62 +59,85 @@ opencode --agent orchestrator
 
 just tell the orchestrator what you want to build, and they'll coordinate the whole team.
 
-### switch between agents
+### available agents (press TAB to switch)
 
-in opencode, press `TAB` to cycle agents, or use `@agentname`:
+| Agent | Mode | Invoke |
+|-------|------|--------|
+| **orchestrator** | Primary | default |
+| **master-dev** | Primary | TAB |
+| **architect** | All | TAB or @architect |
+| **frontend-dev** | All | TAB or @frontend-dev |
+| **backend-dev** | All | TAB or @backend-dev |
+| **devops** | All | TAB or @devops |
+| **qa-tester** | All | TAB or @qa-tester |
+| **researcher** | All | TAB or @researcher |
+| **security-dev** | All | TAB or @security-dev |
+| **docs-writer** | All | TAB or @docs-writer |
+
+### using agents directly
 
 ```
 @orchestrator start a new project
 @architect design the system
 @frontend-dev build the UI
 @backend-dev implement the API
+@devops set up deployment
+@qa-tester write comprehensive tests
+@researcher find the best framework
+@security-dev audit the code
+@docs-writer write the documentation
 ```
 
-### using subagents
+## universal capabilities
 
-the orchestrator can spawn subagents for parallel work:
+every agent can work with:
 
-```
-@architect design while @researcher evaluates tech stack
-```
+**ANY TECHNOLOGY:**
+- web: React, Vue, Svelte, Angular, Next.js, Nuxt
+- mobile: React Native, Flutter, Swift, Kotlin
+- backend: Node.js, Python, Go, Rust, Java, C#
+- databases: PostgreSQL, MongoDB, Redis, MySQL
+- cloud: AWS, GCP, Azure, DigitalOcean, Vercel
+- devops: Docker, Kubernetes, CI/CD, Terraform
+- ai/ml: OpenAI, LangChain, TensorFlow, PyTorch
+- blockchain: Solidity, Rust, web3.js
+- desktop: Electron, Tauri, Qt
+- games: Unity, Unreal, Godot, Phaser
+
+**ANY PROJECT TYPE:**
+- web apps, mobile apps, apis, cli tools, libraries, games, bots, dashboards, cms, ecommerce, social platforms, saas products
+
+**ANY INDUSTRY:**
+- fintech, healthtech, edtech, ecommerce, saas, gaming, social, iot, automation
 
 ## project structure
 
 ```
 opencode-agents/
 ├── agents/
-│   ├── master-dev.md           # original master dev agent
-│   └── dev-team/              # full dev team
-│       ├── orchestrator.md      # team manager
-│       ├── architect.md        # system design
-│       ├── frontend-dev.md     # UI specialist
-│       ├── backend-dev.md      # backend specialist
-│       ├── devops.md          # infrastructure
-│       ├── qa-tester.md       # testing
-│       ├── researcher.md       # R&D
-│       ├── security-dev.md     # security
-│       ├── docs-writer.md     # documentation
-│       └── README.md          # team docs
+│   ├── master-dev.md              # universal master dev
+│   └── dev-team/                 # full dev team
+│       ├── orchestrator.md        # team manager
+│       ├── architect.md          # system design
+│       ├── frontend-dev.md       # UI specialist
+│       ├── backend-dev.md        # backend specialist
+│       ├── devops.md             # infrastructure
+│       ├── qa-tester.md         # testing
+│       ├── researcher.md         # R&D
+│       ├── security-dev.md       # security
+│       └── docs-writer.md        # documentation
 ├── templates/
-│   └── AGENTS.md              # main guidelines
+│   └── AGENTS.md                 # main guidelines
 ├── config/
-│   └── opencode.json          # opencode config
+│   └── opencode.json             # opencode config
 ├── scripts/
-│   ├── install-opencode.sh    # install opencode
-│   ├── update.sh             # update agents
-│   └── reset.sh              # reset to defaults
-├── setup.sh                   # main setup script
-├── quickstart.sh              # one-command installer
+│   ├── install-opencode.sh
+│   ├── update.sh
+│   └── reset.sh
+├── setup.sh
+├── quickstart.sh
 └── README.md
 ```
-
-## customization
-
-### adding custom agents
-
-1. create a new `.md` file in `agents/` or `agents/dev-team/`
-2. update `config/opencode.json` to register the agent
-3. run `./scripts/update.sh`
 
 ## requirements
 
@@ -126,28 +151,10 @@ opencode-agents/
 - ✅ macos
 - ✅ windows (via wsl or git bash)
 
-## agent capabilities
-
-| Agent | What They Do |
-|-------|--------------|
-| orchestrator | Coordinates team, manages projects, your main contact |
-| architect | System design, data models, API contracts |
-| frontend-dev | React, UI components, styling, UX |
-| backend-dev | APIs, databases, authentication, business logic |
-| devops | CI/CD, Docker, Kubernetes, deployment |
-| qa-tester | Testing, quality assurance, bug hunting |
-| researcher | Tech research, evaluations, proofs of concept |
-| security-dev | Security audits, auth, vulnerability testing |
-| docs-writer | README, API docs, technical specs |
-
-## contributing
-
-contributions welcome! feel free to submit PRs, report bugs, or suggest new agents.
-
 ## license
 
 MIT
 
 ---
 
-built with ❤️ for developers who want their AI dev team everywhere
+built with ❤️ for developers who want their ai dev team everywhere
