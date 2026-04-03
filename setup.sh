@@ -58,13 +58,54 @@ banner() {
 }
 
 # =============================================================================
-# Checks
+# OpenCode Installation
 # =============================================================================
 
-check_requirements() {
-    log_info "Checking requirements..."
+install_opencode() {
+    log_info "Checking for OpenCode CLI..."
     
-    # Check for git
+    # Check if already installed
+    if command -v opencode &> /dev/null; then
+        log_success "OpenCode CLI found"
+        opencode --version 2>/dev/null || true
+        return 0
+    fi
+    
+    log_warn "OpenCode CLI not found!"
+    echo ""
+    echo "Installing OpenCode CLI..."
+    echo ""
+    
+    # Try official installer first
+    curl -fsSL https://opencode.ai/install | sh
+    
+    # Source shell config to get the new PATH
+    if [ -f "${HOME}/.bashrc" ]; then
+        source "${HOME}/.bashrc"
+    fi
+    if [ -f "${HOME}/.zshrc" ]; then
+        source "${HOME}/.zshrc"
+    fi
+    
+    # Check if installation succeeded
+    if command -v opencode &> /dev/null; then
+        log_success "OpenCode CLI installed successfully"
+        opencode --version 2>/dev/null || true
+    else
+        log_error "Failed to install OpenCode CLI"
+        echo ""
+        echo "Please install manually:"
+        echo "  curl -fsSL https://opencode.ai/install | sh"
+        echo ""
+        exit 1
+    fi
+}
+
+# =============================================================================
+# Git Check
+# =============================================================================
+
+check_git() {
     if command -v git &> /dev/null; then
         log_success "git found"
     else
@@ -72,101 +113,73 @@ check_requirements() {
         echo "Install git: https://git-scm.com/downloads"
         exit 1
     fi
-    
-    # Check for opencode
-    if ! command -v opencode &> /dev/null; then
-        log_warn "opencode not found!"
-        echo ""
-        echo "Installing OpenCode CLI..."
-        echo ""
-        curl -fsSL https://opencode.ai/install | sh
-        
-        # Source shell config to get the new PATH
-        if [ -f "${HOME}/.bashrc" ]; then
-            source "${HOME}/.bashrc"
-        fi
-        if [ -f "${HOME}/.zshrc" ]; then
-            source "${HOME}/.zshrc"
-        fi
-        
-        # Check if installation succeeded
-        if command -v opencode &> /dev/null; then
-            log_success "opencode installed"
-            opencode --version 2>/dev/null || true
-        else
-            log_error "Failed to install opencode"
-            echo "Please install manually: curl -fsSL https://opencode.ai/install | sh"
-            exit 1
-        fi
-    else
-        log_success "opencode found"
-        opencode --version 2>/dev/null || true
-    fi
 }
 
 # =============================================================================
-# Installation
+# Installation Functions
 # =============================================================================
-
-install_agents() {
-    log_info "Setting up agents directory..."
-    
-    # Create directories
-    mkdir -p "${OPENCODE_AGENTS_DIR}"
-    
-    # Copy agents
-    if [ -d "${SCRIPT_DIR}/agents" ]; then
-        cp -r "${SCRIPT_DIR}/agents/"* "${OPENCODE_AGENTS_DIR}/"
-        log_success "Agents installed"
-    fi
-    
-    # List installed agents
-    echo ""
-    log_info "Installed agents:"
-    ls -1 "${OPENCODE_AGENTS_DIR}" | while read agent; do
-        echo "  • ${agent}"
-    done
-}
 
 install_config() {
-    log_info "Setting up opencode configuration..."
+    log_info "Setting up OpenCode configuration..."
     
-    # Create opencode config dir if needed
+    # Create config directory
     mkdir -p "${OPENCODE_CONFIG_DIR}"
     
-    # Copy config if exists
-    if [ -f "${SCRIPT_DIR}/config/opencode.json" ]; then
-        # Backup existing config
-        if [ -f "${OPENCODE_CONFIG_DIR}/opencode.json" ]; then
-            cp "${OPENCODE_CONFIG_DIR}/opencode.json" "${OPENCODE_CONFIG_DIR}/opencode.json.backup"
-            log_info "Backed up existing config"
-        fi
-        
-        cp "${SCRIPT_DIR}/config/opencode.json" "${OPENCODE_CONFIG_DIR}/opencode.json"
-        log_success "Config installed"
+    # Backup existing config
+    if [ -f "${OPENCODE_CONFIG_DIR}/opencode.json" ]; then
+        cp "${OPENCODE_CONFIG_DIR}/opencode.json" "${OPENCODE_CONFIG_DIR}/opencode.json.backup"
+        log_info "Backed up existing config"
     fi
+    
+    # Copy new config with all agents
+    if [ -f "${SCRIPT_DIR}/config/opencode.json" ]; then
+        cp "${SCRIPT_DIR}/config/opencode.json" "${OPENCODE_CONFIG_DIR}/opencode.json"
+        log_success "Config installed with all 10 agents"
+    else
+        log_error "Config file not found!"
+        exit 1
+    fi
+}
+
+install_agents() {
+    log_info "Setting up agent files..."
+    
+    # Create agents directory
+    mkdir -p "${OPENCODE_AGENTS_DIR}"
+    
+    # Copy master-dev agent
+    if [ -f "${SCRIPT_DIR}/agents/master-dev.md" ]; then
+        cp "${SCRIPT_DIR}/agents/master-dev.md" "${OPENCODE_AGENTS_DIR}/"
+        log_success "master-dev agent installed"
+    fi
+    
+    # Copy dev-team agents
+    if [ -d "${SCRIPT_DIR}/agents/dev-team" ]; then
+        cp "${SCRIPT_DIR}/agents/dev-team/"*.md "${OPENCODE_AGENTS_DIR}/"
+        log_success "Dev team agents installed"
+    fi
+    
+    # List all installed agents
+    echo ""
+    log_info "Installed agents:"
+    echo ""
+    local count=0
+    for agent in orchestrator master-dev architect frontend-dev backend-dev devops qa-tester researcher security-dev docs-writer; do
+        if [ -f "${OPENCODE_AGENTS_DIR}/${agent}.md" ] || [ -f "${OPENCODE_AGENTS_DIR}/${agent}.md" ]; then
+            echo -e "    ${GREEN}✓${NC} ${agent}"
+            ((count++))
+        fi
+    done
+    echo ""
+    log_success "${count} agents ready"
 }
 
 install_agents_md() {
-    log_info "Looking for AGENTS.md to install..."
+    log_info "Installing AGENTS.md guidelines..."
     
-    # Check various locations
     if [ -f "${SCRIPT_DIR}/templates/AGENTS.md" ]; then
-        # Check if user wants to install globally
-        if [ -f "${OPENCODE_CONFIG_DIR}/AGENTS.md" ]; then
-            log_warn "AGENTS.md already exists in config"
-            read -p "Overwrite? (y/N) " -n 1 -r
-            echo
-            if [[ $REPLY =~ ^[Yy]$ ]]; then
-                cp "${SCRIPT_DIR}/templates/AGENTS.md" "${OPENCODE_CONFIG_DIR}/AGENTS.md"
-                log_success "AGENTS.md installed to ~/.config/opencode/"
-            else
-                log_info "Skipped AGENTS.md installation"
-            fi
-        else
-            cp "${SCRIPT_DIR}/templates/AGENTS.md" "${OPENCODE_CONFIG_DIR}/AGENTS.md"
-            log_success "AGENTS.md installed to ~/.config/opencode/"
-        fi
+        cp "${SCRIPT_DIR}/templates/AGENTS.md" "${OPENCODE_CONFIG_DIR}/AGENTS.md"
+        log_success "AGENTS.md installed"
     fi
 }
 
@@ -177,28 +190,36 @@ install_agents_md() {
 verify_installation() {
     echo ""
     log_info "Verifying installation..."
+    echo ""
     
     local errors=0
     
-    # Check agents
-    if [ -d "${OPENCODE_AGENTS_DIR}" ]; then
-        agent_count=$(ls -1 "${OPENCODE_AGENTS_DIR}"/*.md 2>/dev/null | wc -l)
-        if [ "$agent_count" -gt 0 ]; then
-            log_success "${agent_count} agent(s) installed"
-        else
-            log_error "No agents found"
-            ((errors++))
-        fi
+    # Check config
+    echo -n "  Config: "
+    if [ -f "${OPENCODE_CONFIG_DIR}/opencode.json" ]; then
+        agent_count=$(grep -c '"description"' "${OPENCODE_CONFIG_DIR}/opencode.json" || echo "0")
+        echo -e "${GREEN}✓${NC} (${agent_count} agents configured)"
     else
-        log_error "Agents directory not created"
+        echo -e "${RED}✗${NC}"
         ((errors++))
     fi
     
-    # Check config
-    if [ -f "${OPENCODE_CONFIG_DIR}/opencode.json" ]; then
-        log_success "Config installed"
+    # Check agents directory
+    echo -n "  Agents: "
+    if [ -d "${OPENCODE_AGENTS_DIR}" ]; then
+        file_count=$(find "${OPENCODE_AGENTS_DIR}" -name "*.md" 2>/dev/null | wc -l)
+        echo -e "${GREEN}✓${NC} (${file_count} agent files)"
     else
-        log_warn "Config not installed (optional)"
+        echo -e "${RED}✗${NC}"
+        ((errors++))
+    fi
+    
+    # Check AGENTS.md
+    echo -n "  Guidelines: "
+    if [ -f "${OPENCODE_CONFIG_DIR}/AGENTS.md" ]; then
+        echo -e "${GREEN}✓${NC}"
+    else
+        echo -e "${YELLOW}⚠${NC} (optional)"
     fi
     
     echo ""
@@ -216,28 +237,29 @@ verify_installation() {
 show_post_install() {
     echo ""
     echo -e "${BLUE}═══════════════════════════════════════════════════════════${NC}"
-    echo -e "${BLUE}                    POST-INSTALL INFO                        ${NC}"
+    echo -e "${BLUE}                    READY TO GO!                            ${NC}"
     echo -e "${BLUE}═══════════════════════════════════════════════════════════${NC}"
     echo ""
-    echo "  Usage:"
+    echo "  Start your AI dev team:"
     echo ""
-    echo "    # Start opencode with master-dev agent:"
-    echo -e "    ${GREEN}opencode --agent master-dev${NC}"
+    echo -e "    ${GREEN}opencode --agent orchestrator${NC}"
     echo ""
-    echo "    # Or just start normally (uses master-dev by default):"
+    echo "  Or just:"
+    echo ""
     echo -e "    ${GREEN}opencode${NC}"
     echo ""
-    echo "    # In opencode, press TAB to switch agents"
+    echo "  Press ${YELLOW}TAB${NC} in opencode to switch between agents."
+    echo ""
+    echo "  Available agents:"
+    echo "    • orchestrator (main contact)"
+    echo "    • master-dev (universal developer)"
+    echo "    • architect, frontend-dev, backend-dev"
+    echo "    • devops, qa-tester, researcher"
+    echo "    • security-dev, docs-writer"
     echo ""
     echo "  Locations:"
-    echo "    • Config: ~/.config/opencode/"
-    echo "    • Agents: ~/.config/opencode/agents/"
-    echo "    • AGENTS.md: ~/.config/opencode/AGENTS.md"
-    echo ""
-    echo "  Update agents:"
-    echo "    cd ~/opencode-agents && ./scripts/update.sh"
-    echo ""
-    echo "  For more info: cat README.md"
+    echo "    • Config: ${OPENCODE_CONFIG_DIR}/"
+    echo "    • Agents: ${OPENCODE_AGENTS_DIR}/"
     echo ""
     echo -e "${BLUE}═══════════════════════════════════════════════════════════${NC}"
     echo ""
@@ -250,16 +272,16 @@ show_post_install() {
 main() {
     banner
     
-    log_info "Starting setup..."
+    check_git
     echo ""
     
-    check_requirements
-    echo ""
-    
-    install_agents
+    install_opencode
     echo ""
     
     install_config
+    echo ""
+    
+    install_agents
     echo ""
     
     install_agents_md
