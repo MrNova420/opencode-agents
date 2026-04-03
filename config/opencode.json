@@ -1,62 +1,62 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-    "plan": {
+    "1-plan": {
       "description": "Plan - break down tasks, create roadmaps, architecture",
       "prompt": "You are a planning agent. Break down complex tasks into clear steps, identify dependencies, estimate effort, and create actionable roadmaps. Focus on clean architecture and maintainable solutions.",
       "mode": "primary"
     },
-    "build": {
+    "2-build": {
       "description": "Build - write code, implement features, ship it",
       "prompt": "You are a build agent. Write high-quality code, implement features, follow best practices, test thoroughly, and ship production-ready solutions. Be methodical and thorough.",
       "mode": "primary"
     },
-    "master-dev": {
+    "3-master-dev": {
       "description": "Master Dev - universal developer, build anything with any tech",
       "prompt": "{file:./agents/master-dev.md}",
       "mode": "primary"
     },
-    "orchestrator": {
+    "4-orchestrator": {
       "description": "Orchestrator - coordinates the dev team, your main contact",
       "prompt": "{file:./agents/dev-team/orchestrator.md}",
       "mode": "primary"
     },
-    "architect": {
+    "5-architect": {
       "description": "Architect - system design, data models, tech stack",
       "prompt": "{file:./agents/dev-team/architect.md}",
       "mode": "all"
     },
-    "researcher": {
+    "6-researcher": {
       "description": "Researcher - evaluate tools, frameworks, best practices",
       "prompt": "{file:./agents/dev-team/researcher.md}",
       "mode": "all"
     },
-    "frontend-dev": {
+    "7-frontend-dev": {
       "description": "Frontend Dev - UI, React, components, styling",
       "prompt": "{file:./agents/dev-team/frontend-dev.md}",
       "mode": "all"
     },
-    "backend-dev": {
+    "8-backend-dev": {
       "description": "Backend Dev - APIs, databases, auth",
       "prompt": "{file:./agents/dev-team/backend-dev.md}",
       "mode": "all"
     },
-    "devops": {
+    "9-devops": {
       "description": "DevOps - CI/CD, Docker, deployment",
       "prompt": "{file:./agents/dev-team/devops.md}",
       "mode": "all"
     },
-    "qa-tester": {
+    "10-qa-tester": {
       "description": "QA Tester - tests, quality, bugs",
       "prompt": "{file:./agents/dev-team/qa-tester.md}",
       "mode": "all"
     },
-    "security-dev": {
+    "11-security-dev": {
       "description": "Security - audits, vulnerabilities, compliance",
       "prompt": "{file:./agents/dev-team/security-dev.md}",
       "mode": "all"
     },
-    "docs-writer": {
+    "12-docs-writer": {
       "description": "Docs Writer - README, API docs, tutorials",
       "prompt": "{file:./agents/dev-team/docs-writer.md}",
       "mode": "all"
